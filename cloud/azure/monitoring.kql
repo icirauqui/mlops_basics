@@ -1,0 +1,16 @@
+// Run queries separately in the endpoint's Log Analytics workspace.
+// Replace the endpoint name; scope each dashboard to the intended resource.
+AmlOnlineEndpointTrafficLog
+| where TimeGenerated > ago(1h)
+| where EndpointName == "your-unique-iris-endpoint"
+| summarize Requests=count(), Errors=countif(toint(ResponseCode) >= 500),
+    P95Ms=percentile(TotalDurationMs, 95) by bin(TimeGenerated, 5m), DeploymentName
+
+// Application JSON events. These are model prediction timings, not network latency.
+AmlOnlineEndpointConsoleLog
+| where TimeGenerated > ago(1h)
+| where _ResourceId endswith "/onlineEndpoints/your-unique-iris-endpoint"
+| extend Event=parse_json(Message)
+| where tostring(Event.event) == "prediction"
+| summarize Requests=count(), P95PredictionMs=percentile(todouble(Event.latency_ms), 95)
+    by tostring(Event.model_version), bin(TimeGenerated, 5m)

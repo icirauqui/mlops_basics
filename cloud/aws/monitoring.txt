@@ -1,0 +1,11 @@
+# CloudWatch Logs Insights: select the course endpoint log group and a time window.
+# Run each query separately. JSON fields are discovered from application stdout.
+
+fields @timestamp, model_version, request_id, latency_ms
+| filter event = "prediction"
+| stats count(*) as requests, pct(latency_ms, 95) as p95_prediction_ms by model_version, bin(5m)
+
+fields @timestamp, status, path, latency_ms
+| filter event = "http"
+| filter status >= 400
+| stats count(*) as errors by status, path

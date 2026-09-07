@@ -1,0 +1,51 @@
+[project]
+name = "iris-training"
+version = "0.1.0"
+description = "A small MLOps course: local, Azure Machine Learning, and SageMaker AI"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.141.1",
+    "joblib>=1.6.0",
+    "pandas>=3.0.5",
+    "scikit-learn>=1.9.0",
+    "uvicorn>=0.52.4",
+]
+
+[project.optional-dependencies]
+azure = [
+    "azure-ai-ml>=1.34.1",
+    "azure-identity>=1.25.3",
+]
+aws = [
+    "boto3>=1.43.89",
+]
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28.1",
+    "jupyterlab>=4.6.3",
+    "matplotlib>=3.11.1",
+    "pytest>=9.1.1",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[project.scripts]
+iris = "iris_mlops.workflow:main"
+iris-data = "iris_mlops.data:main"
+iris-monitor = "iris_mlops.monitor:main"
+iris-retrain = "iris_mlops.retrain:main"
+iris-simulate = "iris_mlops.simulate:main"
+iris-logs = "iris_mlops.normalize_logs:main"
+iris-azure = "iris_mlops.azure_cloud:main"
+iris-aws = "iris_mlops.aws_cloud:main"
+iris-cleanup-aws = "iris_mlops.aws_cleanup:main"
+
+[build-system]
+requires = ["uv_build==0.11.7"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "iris_mlops"

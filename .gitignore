@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+python/artifacts/
+python/data/
+python/state/
+python/releases/
+python/downloads/
+.pytest_cache/
+.ruff_cache/
+.env
+*.tar.gz
+python/notebooks/executed/
+python/dist/
+*.egg-info/

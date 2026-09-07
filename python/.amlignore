@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.ipynb_checkpoints/
+data/
+state/
+releases/
+downloads/
+notebooks/
+tools/
+dist/
+artifacts/
+*.ipynb
+*.tar.gz
+tests/
